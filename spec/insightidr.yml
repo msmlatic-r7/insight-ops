@@ -18,7 +18,7 @@ paths:
         name: log_id
         in: path
         required: true
-        description: 'Logentries log key. Example: `/logs/f9c6e2c1-ac7a-4a29-8faa-a8d70f96df71/`'
+        description: 'InsightIDR log key. Example: `/logs/f9c6e2c1-ac7a-4a29-8faa-a8d70f96df71/`'
     get:
       summary: Get A Query
       tags:
@@ -70,14 +70,14 @@ paths:
                         from: 100
                     links:
                       - rel: self
-                        href: 'https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1'
+                        href: 'https://us.api.insight.rapid7.com/log_search/est.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1'
       operationId: getQueryLogs
-      description: "Query your Log entries using a LEQL query.\n\n<br>\n\n**Authentication**\n - Read Only\n \n<br>\n\nDepending on the size of the underlying dataset of the complexity of the query, a request may not yield a value straight away. In this case a well-formed query will return an `HTTP 202` response and an ID you can use to check its state.\n\n<br>\n\nUse the `ID` returned to poll the query. In this example the ID is `deace1fd-e605-41cd-a45c-5bf1ff0c3402-1`. \nThe link array object will return the query URL that can be used. \n\n<br>\n\n```bash\ncurl https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1 -H 'x-api-key: 00112233-4455-6677-8899-aabbccddeeff '\n```\n\n<br>\n\nThere is no limit on how frequently you can poll a query, or how many times you may poll it. However, if you do not poll a query resource for 20 seconds, it will expire. Subsequent calls to that resource will return a 404.\n\n<br>\n\n## How to poll a query\n1. Run the initial GET Query which will return a callback URL. \n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"f9c6e2c1-ac7a-4a29-8faa-a8d70f96df70\"\n  ],\n  \"id\": \"deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\",\n  \"progress\":0,\n  \"query\": {\n    \"statement\": \"where(foo) calculate(count:x)\",\n    \"during\": {\n      \"to\": 100000,\n      \"from\": 100\n    }\n  },\n  \"links\": [{\n    \"rel\": \"self\",\n    \"href\": \"https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"\n  }]\n}\n```\n\n<br>\n\n**Note**: If the initial GET Query is small, then the results are returned right away and there is no need to use the callback URL to poll. \n\n<br>\n\n2. Then use the callback URL to poll request and get log entries. \n\n<br>\n\n`\"href\": \"https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"`\n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"b7b33bce-58f1-42db-a36a-f452aa240d73\"\n  ],\n  \"events\": [\n    {\n      \"labels\": [],\n      \"timestamp\": 1583009183456,\n      \"sequence_number\": 3234730521598636000,\n      \"log_id\": \"b7b33bce-58f1-42db-a36a-f452aa240d73\",\n      \"message\": \"{\\\"http.addr\\\" : \\\"176.9.8.97\\\",\\\"http.timestamp\\\" : \\\"2020-02-29 20:53:34.530862\\\",\\\"http.method\\\" : \\\"GET\\\",\\\"http.path\\\" : \\\"/resources/contact-us.php\\\",\\\"http.status\\\" : \\\"500\\\",\\\"http.bytes\\\" : 4046,\\\"http.referer\\\" : \\\"www.google.ie\\\",\\\"http.agent\\\" : \\\"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25\\\",\\\"http.host\\\" : \\\"eu-prod-3\\\",\\\"http.responsetime\\\" : 11843}\",\n      \"links\": [\n        {\n          \"rel\": \"Context\",\n          \"href\": \"https://eu.api.insight.rapid7.com/log_search/query/context/3234730521598636032?per_page=50&timestamp=1583009183456&log_keys=b7b33bce-58f1-42db-a36a-f452aa240d73&context_type=SURROUND\"\n        }\n      ]\n    }\n  ],\n  \"leql\": {\n    \"statement\": \"where(http.status)\",\n    \"during\": {\n      \"from\": 1583009182433,\n      \"to\": 1585601175000,\n      \"time_range\": \"Last 30 Days\"\n    }\n  }\n}\n```"
+      description: "Query your Log entries using a LEQL query.\n\n<br>\n\n**Authentication**\n - Read Only\n \n<br>\n\nDepending on the size of the underlying dataset of the complexity of the query, a request may not yield a value straight away. In this case a well-formed query will return an `HTTP 202` response and an ID you can use to check its state.\n\n<br>\n\nUse the `ID` returned to poll the query. In this example the ID is `deace1fd-e605-41cd-a45c-5bf1ff0c3402-1`. \nThe link array object will return the query URL that can be used. \n\n<br>\n\n```bash\ncurl https://us.api.insight.rapid7.com/log_search//query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1 -H 'x-api-key: 00112233-4455-6677-8899-aabbccddeeff '\n```\n\n<br>\n\nThere is no limit on how frequently you can poll a query, or how many times you may poll it. However, if you do not poll a query resource for 20 seconds, it will expire. Subsequent calls to that resource will return a 404.\n\n<br>\n\n## How to poll a query\n1. Run the initial GET Query which will return a callback URL. \n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"f9c6e2c1-ac7a-4a29-8faa-a8d70f96df70\"\n  ],\n  \"id\": \"deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\",\n  \"progress\":0,\n  \"query\": {\n    \"statement\": \"where(foo) calculate(count:x)\",\n    \"during\": {\n      \"to\": 100000,\n      \"from\": 100\n    }\n  },\n  \"links\": [{\n    \"rel\": \"self\",\n    \"href\": \"https://us.api.insight.rapid7.com/log_search//query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"\n  }]\n}\n```\n\n<br>\n\n**Note**: If the initial GET Query is small, then the results are returned right away and there is no need to use the callback URL to poll. \n\n<br>\n\n2. Then use the callback URL to poll request and get log entries. \n\n<br>\n\n`\"href\": \"https://us.api.insight.rapid7.com/log_search/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"`\n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"b7b33bce-58f1-42db-a36a-f452aa240d73\"\n  ],\n  \"events\": [\n    {\n      \"labels\": [],\n      \"timestamp\": 1583009183456,\n      \"sequence_number\": 3234730521598636000,\n      \"log_id\": \"b7b33bce-58f1-42db-a36a-f452aa240d73\",\n      \"message\": \"{\\\"http.addr\\\" : \\\"176.9.8.97\\\",\\\"http.timestamp\\\" : \\\"2020-02-29 20:53:34.530862\\\",\\\"http.method\\\" : \\\"GET\\\",\\\"http.path\\\" : \\\"/resources/contact-us.php\\\",\\\"http.status\\\" : \\\"500\\\",\\\"http.bytes\\\" : 4046,\\\"http.referer\\\" : \\\"www.google.ie\\\",\\\"http.agent\\\" : \\\"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25\\\",\\\"http.host\\\" : \\\"eu-prod-3\\\",\\\"http.responsetime\\\" : 11843}\",\n      \"links\": [\n        {\n          \"rel\": \"Context\",\n          \"href\": \"https://eu.api.insight.rapid7.com/log_search/query/context/3234730521598636032?per_page=50&timestamp=1583009183456&log_keys=b7b33bce-58f1-42db-a36a-f452aa240d73&context_type=SURROUND\"\n        }\n      ]\n    }\n  ],\n  \"leql\": {\n    \"statement\": \"where(http.status)\",\n    \"during\": {\n      \"from\": 1583009182433,\n      \"to\": 1585601175000,\n      \"time_range\": \"Last 30 Days\"\n    }\n  }\n}\n```"
       parameters:
         - schema:
             type: string
           in: query
-          description: "A valid [LEQL query](https://docs.logentries.com/docs/search#section-leql) to run against the log. \nFormat: url-encoded string.\nExample: `query=where(foo=bar)`"
+          description: "A valid [LEQL query](https://docs.rapid7.com/insightidr/build-a-query/) to run against the log. \nFormat: url-encoded string.\nExample: `query=where(foo=bar)`"
           required: true
           example: where(foo=bar)
           name: query
@@ -155,9 +155,9 @@ paths:
                         from: 100
                     links:
                       - rel: self
-                        href: 'https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1'
+                        href: 'https://us.api.insight.rapid7.com/log_search//query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1'
       operationId: getSavedQuery
-      description: "Request used to Query your Log entries using a Saved Query.\n\n<br>\n\nNote that if you are already using a from and to value in your Saved Query then they are not required for performing a GET request.\n\n<br>\n\n**Authentication**\n - Read Only\n \n<br>\n\nDepending on the size of the underlying dataset of the complexity of the query, a request may not yield a value straight away. In this case a well-formed query will return an `HTTP 202` response and an ID you can use to check its state.\n\n<br>\n\nUse the `ID` returned to poll the query. In this example the ID is `deace1fd-e605-41cd-a45c-5bf1ff0c3402-1`. \nThe link array object will return the query URL that can be used. \n\n<br>\n\n```bash\ncurl https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1 -H 'x-api-key: 00112233-4455-6677-8899-aabbccddeeff '\n```\n\n<br>\n\nThere is no limit on how frequently you can poll a query, or how many times you may poll it. However, if you do not poll a query resource for 20 seconds, it will expire. Subsequent calls to that resource will return a 404.\n\n<br>\n\n## How to poll a query\n\n1. Run the initial GET Query which will return a callback URL. \n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"f9c6e2c1-ac7a-4a29-8faa-a8d70f96df70\"\n  ],\n  \"id\": \"deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\",\n  \"progress\":0,\n  \"query\": {\n    \"statement\": \"where(foo) calculate(count:x)\",\n    \"during\": {\n      \"to\": 100000,\n      \"from\": 100\n    }\n  },\n  \"links\": [{\n    \"rel\": \"self\",\n    \"href\": \"https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"\n  }]\n}\n```\n\n<br>\n\n**Note**: If the initial GET Query is small, then the results are returned right away and there is no need to use the callback URL to poll.\n \n<br>\n\n2. Then use the callback URL to poll request and get log entries. \n\n<br>\n\n`\"href\": \"https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"`\n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"b7b33bce-58f1-42db-a36a-f452aa240d73\"\n  ],\n  \"events\": [\n    {\n      \"labels\": [],\n      \"timestamp\": 1583009183456,\n      \"sequence_number\": 3234730521598636000,\n      \"log_id\": \"b7b33bce-58f1-42db-a36a-f452aa240d73\",\n      \"message\": \"{\\\"http.addr\\\" : \\\"176.9.8.97\\\",\\\"http.timestamp\\\" : \\\"2020-02-29 20:53:34.530862\\\",\\\"http.method\\\" : \\\"GET\\\",\\\"http.path\\\" : \\\"/resources/contact-us.php\\\",\\\"http.status\\\" : \\\"500\\\",\\\"http.bytes\\\" : 4046,\\\"http.referer\\\" : \\\"www.google.ie\\\",\\\"http.agent\\\" : \\\"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25\\\",\\\"http.host\\\" : \\\"eu-prod-3\\\",\\\"http.responsetime\\\" : 11843}\",\n      \"links\": [\n        {\n          \"rel\": \"Context\",\n          \"href\": \"https://eu.api.insight.rapid7.com/log_search/query/context/3234730521598636032?per_page=50&timestamp=1583009183456&log_keys=b7b33bce-58f1-42db-a36a-f452aa240d73&context_type=SURROUND\"\n        }\n      ]\n    }\n  ],\n  \"leql\": {\n    \"statement\": \"where(http.status)\",\n    \"during\": {\n      \"from\": 1583009182433,\n      \"to\": 1585601175000,\n      \"time_range\": \"Last 30 Days\"\n    }\n  }\n}\n```"
+      description: "Request used to Query your Log entries using a Saved Query.\n\n<br>\n\nNote that if you are already using a from and to value in your Saved Query then they are not required for performing a GET request.\n\n<br>\n\n**Authentication**\n - Read Only\n \n<br>\n\nDepending on the size of the underlying dataset of the complexity of the query, a request may not yield a value straight away. In this case a well-formed query will return an `HTTP 202` response and an ID you can use to check its state.\n\n<br>\n\nUse the `ID` returned to poll the query. In this example the ID is `deace1fd-e605-41cd-a45c-5bf1ff0c3402-1`. \nThe link array object will return the query URL that can be used. \n\n<br>\n\n```bash\ncurl https://us.api.insight.rapid7.com/log_search/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1 -H 'x-api-key: 00112233-4455-6677-8899-aabbccddeeff '\n```\n\n<br>\n\nThere is no limit on how frequently you can poll a query, or how many times you may poll it. However, if you do not poll a query resource for 20 seconds, it will expire. Subsequent calls to that resource will return a 404.\n\n<br>\n\n## How to poll a query\n\n1. Run the initial GET Query which will return a callback URL. \n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"f9c6e2c1-ac7a-4a29-8faa-a8d70f96df70\"\n  ],\n  \"id\": \"deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\",\n  \"progress\":0,\n  \"query\": {\n    \"statement\": \"where(foo) calculate(count:x)\",\n    \"during\": {\n      \"to\": 100000,\n      \"from\": 100\n    }\n  },\n  \"links\": [{\n    \"rel\": \"self\",\n    \"href\": \"https://us.api.insight.rapid7.com/log_search/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"\n  }]\n}\n```\n\n<br>\n\n**Note**: If the initial GET Query is small, then the results are returned right away and there is no need to use the callback URL to poll.\n \n<br>\n\n2. Then use the callback URL to poll request and get log entries. \n\n<br>\n\n`\"href\": \"https://us.api.insight.rapid7.com/log_search/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"`\n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"b7b33bce-58f1-42db-a36a-f452aa240d73\"\n  ],\n  \"events\": [\n    {\n      \"labels\": [],\n      \"timestamp\": 1583009183456,\n      \"sequence_number\": 3234730521598636000,\n      \"log_id\": \"b7b33bce-58f1-42db-a36a-f452aa240d73\",\n      \"message\": \"{\\\"http.addr\\\" : \\\"176.9.8.97\\\",\\\"http.timestamp\\\" : \\\"2020-02-29 20:53:34.530862\\\",\\\"http.method\\\" : \\\"GET\\\",\\\"http.path\\\" : \\\"/resources/contact-us.php\\\",\\\"http.status\\\" : \\\"500\\\",\\\"http.bytes\\\" : 4046,\\\"http.referer\\\" : \\\"www.google.ie\\\",\\\"http.agent\\\" : \\\"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25\\\",\\\"http.host\\\" : \\\"eu-prod-3\\\",\\\"http.responsetime\\\" : 11843}\",\n      \"links\": [\n        {\n          \"rel\": \"Context\",\n          \"href\": \"https://eu.api.insight.rapid7.com/log_search/query/context/3234730521598636032?per_page=50&timestamp=1583009183456&log_keys=b7b33bce-58f1-42db-a36a-f452aa240d73&context_type=SURROUND\"\n        }\n      ]\n    }\n  ],\n  \"leql\": {\n    \"statement\": \"where(http.status)\",\n    \"during\": {\n      \"from\": 1583009182433,\n      \"to\": 1585601175000,\n      \"time_range\": \"Last 30 Days\"\n    }\n  }\n}\n```"
       parameters:
         - schema:
             type: integer
@@ -225,7 +225,7 @@ paths:
                     id: deace1fd-e605-41cd-a45c-5bf1ff0c3402-0
                     links:
                       - rel: self
-                        href: 'https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-0'
+                        href: 'https://us.api.insight.rapid7.com/log_search//query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-0'
         '400':
           description: Bad Request. Bad user input.
         '404':
@@ -233,7 +233,7 @@ paths:
         '500':
           description: Internal Server Error
       operationId: getLongRunningQuery
-      description: "Depending on the size of the underlying dataset of the complexity of the query, a request may not yield a value straight away. In this case a well-formed query will return an `HTTP 202` response and an ID you can use to check its state.\n<br>\nUse this with:\n* [Get Query](https://insightidr.help.rapid7.com/reference#getquerylogs)\n* [Get Saved Query](https://insightidr.help.rapid7.com/reference#getsavedquery)\n\n<br>\n\n**Authentication**\n - Read Only\n\n<br>\n\nUse the `ID` returned to poll the query. In this example the ID is `deace1fd-e605-41cd-a45c-5bf1ff0c3402-1`. \nThe link array object will return the query URL that can be used. \n\n<br>\n\n```bash\ncurl https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1 -H 'x-api-key: 00112233-4455-6677-8899-aabbccddeeff '\n```\n\n<br>\n\nThere is no limit on how frequently you can poll a query, or how many times you may poll it. However, if you do not poll a query resource for 20 seconds, it will expire. Subsequent calls to that resource will return a 404.\n\n<br>\n\n## How to poll a query\n\n1. Run the initial GET Query which will return a callback URL. \n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"f9c6e2c1-ac7a-4a29-8faa-a8d70f96df70\"\n  ],\n  \"id\": \"deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\",\n  \"progress\":0,\n  \"query\": {\n    \"statement\": \"where(foo) calculate(count:x)\",\n    \"during\": {\n      \"to\": 100000,\n      \"from\": 100\n    }\n  },\n  \"links\": [{\n    \"rel\": \"self\",\n    \"href\": \"https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"\n  }]\n}\n```\n\n<br>\n\n**Note**: If the initial GET Query is small, then the results are returned right away and there is no need to use the callback URL to poll.\n \n<br>\n\n2. Then use the callback URL to poll request and get log entries. \n\n<br>\n\n`\"href\": \"https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"`\n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"b7b33bce-58f1-42db-a36a-f452aa240d73\"\n  ],\n  \"events\": [\n    {\n      \"labels\": [],\n      \"timestamp\": 1583009183456,\n      \"sequence_number\": 3234730521598636000,\n      \"log_id\": \"b7b33bce-58f1-42db-a36a-f452aa240d73\",\n      \"message\": \"{\\\"http.addr\\\" : \\\"176.9.8.97\\\",\\\"http.timestamp\\\" : \\\"2020-02-29 20:53:34.530862\\\",\\\"http.method\\\" : \\\"GET\\\",\\\"http.path\\\" : \\\"/resources/contact-us.php\\\",\\\"http.status\\\" : \\\"500\\\",\\\"http.bytes\\\" : 4046,\\\"http.referer\\\" : \\\"www.google.ie\\\",\\\"http.agent\\\" : \\\"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25\\\",\\\"http.host\\\" : \\\"eu-prod-3\\\",\\\"http.responsetime\\\" : 11843}\",\n      \"links\": [\n        {\n          \"rel\": \"Context\",\n          \"href\": \"https://eu.api.insight.rapid7.com/log_search/query/context/3234730521598636032?per_page=50&timestamp=1583009183456&log_keys=b7b33bce-58f1-42db-a36a-f452aa240d73&context_type=SURROUND\"\n        }\n      ]\n    }\n  ],\n  \"leql\": {\n    \"statement\": \"where(http.status)\",\n    \"during\": {\n      \"from\": 1583009182433,\n      \"to\": 1585601175000,\n      \"time_range\": \"Last 30 Days\"\n    }\n  }\n}\n```"
+      description: "Depending on the size of the underlying dataset of the complexity of the query, a request may not yield a value straight away. In this case a well-formed query will return an `HTTP 202` response and an ID you can use to check its state.\n<br>\nUse this with:\n* [Get Query](https://insightidr.help.rapid7.com/reference#getquerylogs)\n* [Get Saved Query](https://insightidr.help.rapid7.com/reference#getsavedquery)\n\n<br>\n\n**Authentication**\n - Read Only\n\n<br>\n\nUse the `ID` returned to poll the query. In this example the ID is `deace1fd-e605-41cd-a45c-5bf1ff0c3402-1`. \nThe link array object will return the query URL that can be used. \n\n<br>\n\n```bash\ncurl https://us.api.insight.rapid7.com/log_search/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1 -H 'x-api-key: 00112233-4455-6677-8899-aabbccddeeff '\n```\n\n<br>\n\nThere is no limit on how frequently you can poll a query, or how many times you may poll it. However, if you do not poll a query resource for 20 seconds, it will expire. Subsequent calls to that resource will return a 404.\n\n<br>\n\n## How to poll a query\n\n1. Run the initial GET Query which will return a callback URL. \n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"f9c6e2c1-ac7a-4a29-8faa-a8d70f96df70\"\n  ],\n  \"id\": \"deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\",\n  \"progress\":0,\n  \"query\": {\n    \"statement\": \"where(foo) calculate(count:x)\",\n    \"during\": {\n      \"to\": 100000,\n      \"from\": 100\n    }\n  },\n  \"links\": [{\n    \"rel\": \"self\",\n    \"href\": \"https://us.api.insight.rapid7.com/log_search//query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"\n  }]\n}\n```\n\n<br>\n\n**Note**: If the initial GET Query is small, then the results are returned right away and there is no need to use the callback URL to poll.\n \n<br>\n\n2. Then use the callback URL to poll request and get log entries. \n\n<br>\n\n`\"href\": \"https://us.api.insight.rapid7.com/log_search//query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"`\n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"b7b33bce-58f1-42db-a36a-f452aa240d73\"\n  ],\n  \"events\": [\n    {\n      \"labels\": [],\n      \"timestamp\": 1583009183456,\n      \"sequence_number\": 3234730521598636000,\n      \"log_id\": \"b7b33bce-58f1-42db-a36a-f452aa240d73\",\n      \"message\": \"{\\\"http.addr\\\" : \\\"176.9.8.97\\\",\\\"http.timestamp\\\" : \\\"2020-02-29 20:53:34.530862\\\",\\\"http.method\\\" : \\\"GET\\\",\\\"http.path\\\" : \\\"/resources/contact-us.php\\\",\\\"http.status\\\" : \\\"500\\\",\\\"http.bytes\\\" : 4046,\\\"http.referer\\\" : \\\"www.google.ie\\\",\\\"http.agent\\\" : \\\"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25\\\",\\\"http.host\\\" : \\\"eu-prod-3\\\",\\\"http.responsetime\\\" : 11843}\",\n      \"links\": [\n        {\n          \"rel\": \"Context\",\n          \"href\": \"https://eu.api.insight.rapid7.com/log_search/query/context/3234730521598636032?per_page=50&timestamp=1583009183456&log_keys=b7b33bce-58f1-42db-a36a-f452aa240d73&context_type=SURROUND\"\n        }\n      ]\n    }\n  ],\n  \"leql\": {\n    \"statement\": \"where(http.status)\",\n    \"during\": {\n      \"from\": 1583009182433,\n      \"to\": 1585601175000,\n      \"time_range\": \"Last 30 Days\"\n    }\n  }\n}\n```"
       parameters: []
     parameters:
       - schema:
@@ -274,7 +274,7 @@ paths:
                         from: 100
                     links:
                       - rel: self
-                        href: 'https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1'
+                        href: 'https://us.api.insight.rapid7.com/log_search//query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1'
         '404':
           description: Not Found
       operationId: get-query-saved_queries
@@ -286,7 +286,7 @@ paths:
           description: |-
             The UUID to return a specific query.
             Example: `de305d54-75b4-431b-adb2-eb6b9e546014`
-      description: "Returns all saved queries. To return a specific save query use the `query_id` parameter.\n\n<br>\n\n**Authentication**\n* Owner\n* Read Write\n* Read Only\n\n<br>\n\nDepending on the size of the underlying dataset of the complexity of the query, a request may not yield a value straight away. In this case a well-formed query will return an `HTTP 202` response and an ID you can use to check its state.\n\n<br>\n\nUse the `ID` returned to poll the query. In this example the ID is `deace1fd-e605-41cd-a45c-5bf1ff0c3402-1`. \nThe link array object will return the query URL that can be used. \n\n<br>\n\n```bash\ncurl https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1 -H 'x-api-key: 00112233-4455-6677-8899-aabbccddeeff '\n```\n<br>\n\nThere is no limit on how frequently you can poll a query, or how many times you may poll it. However, if you do not poll a query resource for 20 seconds, it will expire. Subsequent calls to that resource will return a 404.\n\n<br>\n\n## How to poll a query\n\n<br>\n\n1. Run the initial GET Query which will return a callback URL.\n \n<br>\n\n```json\n{\n  \"logs\": [\n    \"f9c6e2c1-ac7a-4a29-8faa-a8d70f96df70\"\n  ],\n  \"id\": \"deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\",\n  \"progress\":0,\n  \"query\": {\n    \"statement\": \"where(foo) calculate(count:x)\",\n    \"during\": {\n      \"to\": 100000,\n      \"from\": 100\n    }\n  },\n  \"links\": [{\n    \"rel\": \"self\",\n    \"href\": \"https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"\n  }]\n}\n```\n\n<br>\n\n**Note**: If the initial GET Query is small, then the results are returned right away and there is no need to use the callback URL to poll.\n \n<br>\n\n2. Then use the callback URL to poll request and get log entries. \n\n<br>\n\n`\"href\": \"https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"`\n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"b7b33bce-58f1-42db-a36a-f452aa240d73\"\n  ],\n  \"events\": [\n    {\n      \"labels\": [],\n      \"timestamp\": 1583009183456,\n      \"sequence_number\": 3234730521598636000,\n      \"log_id\": \"b7b33bce-58f1-42db-a36a-f452aa240d73\",\n      \"message\": \"{\\\"http.addr\\\" : \\\"176.9.8.97\\\",\\\"http.timestamp\\\" : \\\"2020-02-29 20:53:34.530862\\\",\\\"http.method\\\" : \\\"GET\\\",\\\"http.path\\\" : \\\"/resources/contact-us.php\\\",\\\"http.status\\\" : \\\"500\\\",\\\"http.bytes\\\" : 4046,\\\"http.referer\\\" : \\\"www.google.ie\\\",\\\"http.agent\\\" : \\\"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25\\\",\\\"http.host\\\" : \\\"eu-prod-3\\\",\\\"http.responsetime\\\" : 11843}\",\n      \"links\": [\n        {\n          \"rel\": \"Context\",\n          \"href\": \"https://eu.api.insight.rapid7.com/log_search/query/context/3234730521598636032?per_page=50&timestamp=1583009183456&log_keys=b7b33bce-58f1-42db-a36a-f452aa240d73&context_type=SURROUND\"\n        }\n      ]\n    }\n  ],\n  \"leql\": {\n    \"statement\": \"where(http.status)\",\n    \"during\": {\n      \"from\": 1583009182433,\n      \"to\": 1585601175000,\n      \"time_range\": \"Last 30 Days\"\n    }\n  }\n}\n```"
+      description: "Returns all saved queries. To return a specific save query use the `query_id` parameter.\n\n<br>\n\n**Authentication**\n* Owner\n* Read Write\n* Read Only\n\n<br>\n\nDepending on the size of the underlying dataset of the complexity of the query, a request may not yield a value straight away. In this case a well-formed query will return an `HTTP 202` response and an ID you can use to check its state.\n\n<br>\n\nUse the `ID` returned to poll the query. In this example the ID is `deace1fd-e605-41cd-a45c-5bf1ff0c3402-1`. \nThe link array object will return the query URL that can be used. \n\n<br>\n\n```bash\ncurl https://us.api.insight.rapid7.com/log_search/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1 -H 'x-api-key: 00112233-4455-6677-8899-aabbccddeeff '\n```\n<br>\n\nThere is no limit on how frequently you can poll a query, or how many times you may poll it. However, if you do not poll a query resource for 20 seconds, it will expire. Subsequent calls to that resource will return a 404.\n\n<br>\n\n## How to poll a query\n\n<br>\n\n1. Run the initial GET Query which will return a callback URL.\n \n<br>\n\n```json\n{\n  \"logs\": [\n    \"f9c6e2c1-ac7a-4a29-8faa-a8d70f96df70\"\n  ],\n  \"id\": \"deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\",\n  \"progress\":0,\n  \"query\": {\n    \"statement\": \"where(foo) calculate(count:x)\",\n    \"during\": {\n      \"to\": 100000,\n      \"from\": 100\n    }\n  },\n  \"links\": [{\n    \"rel\": \"self\",\n    \"href\": \"https://us.api.insight.rapid7.com/log_search/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"\n  }]\n}\n```\n\n<br>\n\n**Note**: If the initial GET Query is small, then the results are returned right away and there is no need to use the callback URL to poll.\n \n<br>\n\n2. Then use the callback URL to poll request and get log entries. \n\n<br>\n\n`\"href\": \"https://us.api.insight.rapid7.com/log_search/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1\"`\n\n<br>\n\n```json\n{\n  \"logs\": [\n    \"b7b33bce-58f1-42db-a36a-f452aa240d73\"\n  ],\n  \"events\": [\n    {\n      \"labels\": [],\n      \"timestamp\": 1583009183456,\n      \"sequence_number\": 3234730521598636000,\n      \"log_id\": \"b7b33bce-58f1-42db-a36a-f452aa240d73\",\n      \"message\": \"{\\\"http.addr\\\" : \\\"176.9.8.97\\\",\\\"http.timestamp\\\" : \\\"2020-02-29 20:53:34.530862\\\",\\\"http.method\\\" : \\\"GET\\\",\\\"http.path\\\" : \\\"/resources/contact-us.php\\\",\\\"http.status\\\" : \\\"500\\\",\\\"http.bytes\\\" : 4046,\\\"http.referer\\\" : \\\"www.google.ie\\\",\\\"http.agent\\\" : \\\"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25\\\",\\\"http.host\\\" : \\\"eu-prod-3\\\",\\\"http.responsetime\\\" : 11843}\",\n      \"links\": [\n        {\n          \"rel\": \"Context\",\n          \"href\": \"https://eu.api.insight.rapid7.com/log_search/query/context/3234730521598636032?per_page=50&timestamp=1583009183456&log_keys=b7b33bce-58f1-42db-a36a-f452aa240d73&context_type=SURROUND\"\n        }\n      ]\n    }\n  ],\n  \"leql\": {\n    \"statement\": \"where(http.status)\",\n    \"during\": {\n      \"from\": 1583009182433,\n      \"to\": 1585601175000,\n      \"time_range\": \"Last 30 Days\"\n    }\n  }\n}\n```"
     post:
       summary: Create a Saved Query
       tags:
@@ -319,9 +319,7 @@ paths:
       operationId: post-query-saved_queries
       description: |-
         Request to create a new Saved Query.
-
         <br>
-
         **Authentication**
         * Owner
         * Read Write
@@ -385,7 +383,7 @@ paths:
                           name: PHP_LogSet
                           links:
                             - rel: Self
-                              href: 'https://us.rest.logs.insight.rapid7.com/management/logsets/7a70d526-b69f-4030-904f-62dfd25d8d03'
+                              href: 'https://us.api.insight.rapid7.com/log_search/management/logsets/7a70d526-b69f-4030-904f-62dfd25d8d03'
                         - id: 306c8474-05c9-4edd
                           name: CloudTrail_Logset
                           links:
@@ -394,20 +392,10 @@ paths:
       operationId: get-management-logs-log_id
       description: |+
         Request used to get a specific Log from an account.
-
         <br>
-
         **Authentication**
          - Read Write
          - Read Only
-
-
-
-
-
-
-
-
   /management/logs:
     get:
       summary: Get All Logs
@@ -427,7 +415,7 @@ paths:
                       - logsets_info:
                           - id: ecca4c14-338d-4452-b842-5fca8c86b9cb
                             links:
-                              - href: 'https://us.rest.logs.insight.rapid7.com/management/logsets/0f5e4d20-fef3-4b91-b4c2-c2573466bbdd'
+                              - href: 'https://us.api.insight.rapid7.com/log_search/logsets/0f5e4d20-fef3-4b91-b4c2-c2573466bbdd'
                                 rel: Self
                             name: MyLogSet
                         name: MyLog
@@ -442,7 +430,7 @@ paths:
                       - logsets_info:
                           - id: 7162e19e-3711-4f63-9833-d042f5c70f85
                             links:
-                              - href: 'https://us.rest.logs.insight.rapid7.com/management/logsets/3aa5da13-3bb6-4457-ab6c-0d6b01ec892d'
+                              - href: 'https://us.api.insight.rapid7.com/log_search//management/logsets/3aa5da13-3bb6-4457-ab6c-0d6b01ec892d'
                                 rel: Self
                             name: MyOtherLogSet
                         name: MyOtherLog
@@ -458,9 +446,7 @@ paths:
       operationId: get-management-logs
       description: |-
         Request used to list all Logs for an account.
-
         <br>
-
         **Authentication**
          - Read Write
          - Read Only
@@ -484,12 +470,12 @@ paths:
                         logs_info:
                           - id: 4c1e08f2-0398-48a5-9325-ac190e2f79e8
                             links:
-                              - href: 'https://us.rest.logs.insight.rapid7.com/management/logs/4c1e08f2-0398-48a5-9325-ac190e2f79e8'
+                              - href: 'https://us.api.insight.rapid7.com/log_search//management/logs/4c1e08f2-0398-48a5-9325-ac190e2f79e8'
                                 rel: Self
                             name: My Log
                           - id: f15ad4cf-fe7d-4b7a-86b0-924997c1d8be
                             links:
-                              - href: 'https://us.rest.logs.insight.rapid7.com/management/logs/f15ad4cf-fe7d-4b7a-86b0-924997c1d8be'
+                              - href: 'https://us.api.insight.rapid7.com/log_searchapi.insight.rapid7.com/log_search//management/logs/f15ad4cf-fe7d-4b7a-86b0-924997c1d8be'
                                 rel: Self
                             name: My Other Log
                         description: ''
@@ -503,9 +489,7 @@ paths:
       operationId: get-management-logsets
       description: |-
         Get all Log Sets from an account.
-
         <br>
-
         **Authentication**
          - Owner
          - Read Write
@@ -536,7 +520,7 @@ paths:
                       logs_info:
                         - id: 847dd050-df29-4c5c-ac34-a2049d4cd57e
                           links:
-                            - href: 'https://us.rest.logs.insight.rapid7.com/management/logs/847dd050-df29-4c5c-ac34-a2049d4cd57e'
+                            - href: 'https://us.api.insight.rapid7.com/log_search/management/logs/847dd050-df29-4c5c-ac34-a2049d4cd57e'
                               rel: Self
                           name: Lambda Log
                       description: ''
@@ -595,7 +579,7 @@ paths:
             Unauthorized.
             Authentication headers have the wrong API key
       operationId: get-download-logs-logIds
-      description: "This endpoint allows you to download and stream log events to your machine for the given log IDs and query parameters over HTTPS.\n<br>\n**Authentication**\n - Read / Write\n \n<br>\n\n## How to stream logs \nTo stream more than one log event, use a colon to seperate each logID. \n\n<br> \n\n`https://REGION.rest.logs.insight.rapid7.com/download/logs/aee00b66-a543-43dc-b093-53963c2e8f41:d8eacea6-3dbd-4163-8fc2-3ef5067bd7c9:1c1f2885-ed93-4650-9e14-d46af4bf0886`\n\n<br>\n\n## Log Limit\nYou can download a maximum of 10 logs, or 20 million logs events, as indicated by the query parameter.\n\n<br>\n\n* Maximum number of download requests - 150\n* Maxium download size - 75 GB\n* Time window - 15 minutes"
+      description: "This endpoint allows you to download and stream log events to your machine for the given log IDs and query parameters over HTTPS.\n<br>\n**Authentication**\n - Read / Write\n \n<br>\n\n## How to stream logs \nTo stream more than one log event, use a colon to seperate each logID. \n\n<br> \n\n`https://region.api.insight.rapid7.com/log_search/download/logs/aee00b66-a543-43dc-b093-53963c2e8f41:d8eacea6-3dbd-4163-8fc2-3ef5067bd7c9:1c1f2885-ed93-4650-9e14-d46af4bf0886`\n\n<br>\n\n## Log Limit\nYou can download a maximum of 10 logs, or 20 million logs events, as indicated by the query parameter.\n\n<br>\n\n* Maximum number of download requests - 150\n* Maxium download size - 75 GB\n* Time window - 15 minutes"
       parameters:
         - schema:
             type: integer
@@ -723,9 +707,7 @@ paths:
       operationId: put-query-saved_queries-saved_query_id
       description: |-
         Replace the attributes of a saved query.
-
         <br>
-
         Full object must be used when performing this request otherwise it will fail.
       requestBody:
         content:
@@ -1119,7 +1101,7 @@ components:
               from: 100
           links:
             - rel: self
-              href: 'https://us.rest.logs.insight.rapid7.com/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1'
+              href: 'https://us.api.insight.rapid7.com/log_search/query/deace1fd-e605-41cd-a45c-5bf1ff0c3402-1'
     Successful-Query-Started-Not-Finished:
       title: Successful-Query-Started-Not-Finished
       type: object
@@ -1389,7 +1371,7 @@ components:
                 name: My Log
                 links:
                   - rel: Self
-                    href: 'https://us.rest.logs.insight.rapid7.com/management/logs/0868a0a4-a939-4a9c-9719-711f6d377021'
+                    href: 'https://us.api.insight.rapid7.com/log_search/management/logs/0868a0a4-a939-4a9c-9719-711f6d377021'
       properties:
         logset:
           type: object
@@ -1459,12 +1441,12 @@ components:
               logs_info:
                 - id: 4c1e08f2-0398-48a5-9325-ac190e2f79e8
                   links:
-                    - href: 'https://us.rest.logs.insight.rapid7.com/management/logs/4c1e08f2-0398-48a5-9325-ac190e2f79e8'
+                    - href: 'https://us.api.insight.rapid7.com/log_search/management/logs/4c1e08f2-0398-48a5-9325-ac190e2f79e8'
                       rel: Self
                   name: My Log
                 - id: f15ad4cf-fe7d-4b7a-86b0-924997c1d8be
                   links:
-                    - href: 'https://us.rest.logs.insight.rapid7.com/management/logs/f15ad4cf-fe7d-4b7a-86b0-924997c1d8be'
+                    - href: 'https://us.api.insight.rapid7.com/log_search/management/logs/f15ad4cf-fe7d-4b7a-86b0-924997c1d8be'
                       rel: Self
                   name: My Other Log
               description: ''
@@ -1498,7 +1480,7 @@ components:
                         properties:
                           href:
                             type: string
-                            example: 'https://us.rest.logs.insight.rapid7.com/management/logs/4c1e08f2-0398-48a5-9325-ac190e2f79e8'
+                            example: 'https://us.api.insight.rapid7.com/log_search/management/logs/4c1e08f2-0398-48a5-9325-ac190e2f79e8'
                           rel:
                             type: string
                             example: Self
@@ -1522,7 +1504,7 @@ components:
             logsets_info:
               - id: 4e6dadf9-961e-48f4-82cf-452de78eb217
                 links:
-                  - href: 'https://us.rest.logs.insight.rapid7.com/management/logsets/4e6dadf9-961e-48f4-82cf-452de78eb217'
+                  - href: 'https://us.api.insight.rapid7.com/log_search/management/logsets/4e6dadf9-961e-48f4-82cf-452de78eb217'
                     rel: Self
                 name: ibtest
             name: MyUpdatedLogName
@@ -1635,7 +1617,7 @@ components:
             - logsets_info:
                 - id: ecca4c14-338d-4452-b842-5fca8c86b9cb
                   links:
-                    - href: 'https://us.rest.logs.insight.rapid7.com/management/logsets/0f5e4d20-fef3-4b91-b4c2-c2573466bbdd'
+                    - href: 'https://us.api.insight.rapid7.com/log_search/management/logsets/0f5e4d20-fef3-4b91-b4c2-c2573466bbdd'
                       rel: Self
                   name: MyLogSet
               name: MyLog
@@ -1650,7 +1632,7 @@ components:
             - logsets_info:
                 - id: 7162e19e-3711-4f63-9833-d042f5c70f85
                   links:
-                    - href: 'https://us.rest.logs.insight.rapid7.com/management/logsets/3aa5da13-3bb6-4457-ab6c-0d6b01ec892d'
+                    - href: 'https://us.api.insight.rapid7.com/log_search/management/logsets/3aa5da13-3bb6-4457-ab6c-0d6b01ec892d'
                       rel: Self
                   name: MyOtherLogSet
               name: MyOtherLog
@@ -1688,7 +1670,7 @@ components:
                 name: PHP_LogSet
                 links:
                   - rel: Self
-                    href: 'https://us.rest.logs.insight.rapid7.com/management/logsets/7a70d526-b69f-4030-904f-62dfd25d8d03'
+                    href: 'https://us.api.insight.rapid7.com/log_search/management/logsets/7a70d526-b69f-4030-904f-62dfd25d8d03'
               - id: 306c8474-05c9-4edd
                 name: CloudTrail_Logset
                 links:
